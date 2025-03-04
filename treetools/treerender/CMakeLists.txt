@@ -1,8 +1,7 @@
 set(SOURCES
-  treeinfo.cpp
+  treerender.cpp
 )
-add_compile_options(-ggdb -O0)
-ras_add_executable(treeinfo
+ras_add_executable(treerender
   LIBS treelib
   SOURCES ${SOURCES}
   PROJECT_FOLDER "treetools"

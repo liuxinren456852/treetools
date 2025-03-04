@@ -405,17 +405,18 @@ void getBranchLengths(ray::TreeStructure &tree, const std::vector<std::vector<in
 }
 
 void getBifurcationProperties(ray::TreeStructure &tree, const std::vector<std::vector<int>> &children, std::vector<double> &angles, std::vector<double> &dominances, std::vector<double> &num_children, 
-  double &tree_dominance, double &tree_angle, double &tree_children, double &total_weight)
+  double &tree_dominance, double &tree_angle, double &total_weight)
 {
   angles.resize(tree.segments().size(), 0);
   dominances.resize(tree.segments().size(), 0);
   num_children.resize(tree.segments().size(), 0);
   tree_dominance = 0.0;
   tree_angle = 0.0;
-  tree_children = 0.0;
   total_weight = 1e-10;
+  num_children[0] = static_cast<double>(children[0].size());
   for (size_t i = 1; i < tree.segments().size(); i++)
   {
+    num_children[i] = static_cast<double>(children[i].size());
     // if its a branch point then record how dominant the branching is
     if (children[i].size() > 1)
     {
@@ -457,8 +458,6 @@ void getBifurcationProperties(ray::TreeStructure &tree, const std::vector<std::v
       const double branch_angle = (180.0 / ray::kPi) * std::atan2(dir1.cross(dir2).norm(), dir1.dot(dir2));
       angles[i] = branch_angle;
       tree_angle += weight * branch_angle;
-      num_children[i] = static_cast<double>(children[i].size());
-      tree_children += weight * static_cast<double>(children[i].size());
     }
   }    
 }
